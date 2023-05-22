@@ -103,7 +103,7 @@ class _CalculatorBMIScreenState extends State<CalculatorBMIScreen> {
                             children: [
                               Image.asset(
                                 'images/male.png',
-                                width: screenWidth * 0.20,
+                                width: screenWidth * 0.23,
                                 color: male ? Colors.white : Colors.black,
                               ),
                               const SizedBox(
