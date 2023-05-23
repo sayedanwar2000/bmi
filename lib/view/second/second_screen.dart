@@ -17,8 +17,9 @@ class SecondScreen extends StatefulWidget {
 class _SecondScreenState extends State<SecondScreen> {
   double bmi;
   final Uri emailLaunchUri = Uri.parse('');
-  final Uri whatsAppLaunchUri = Uri.parse('whatsapp://send?phone=+201151763742' +
-  '&text=${Uri.encodeComponent('Hello I need your help')}');
+  final Uri whatsAppLaunchUri = Uri.parse(
+      'whatsapp://send?phone=+201151763742' +
+          '&text=${Uri.encodeComponent('Hello I need your help')}');
 
   _SecondScreenState(this.bmi);
 
@@ -155,7 +156,29 @@ class _SecondScreenState extends State<SecondScreen> {
                     width: 10.0,
                   ),
                   defaultButton(
-                    function: () {},
+                    function: () {
+                      String? encodeQueryParameters(
+                          Map<String, String> params) {
+                        return params.entries
+                            .map((MapEntry<String, String> e) =>
+                                '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+                            .join('&');
+                      }
+
+                      final Uri emailLaunchUri = Uri(
+                        scheme: 'mailto',
+                        path: 'ahmedmohamedhassanramzysaad@gmail.com',
+                        query: encodeQueryParameters(<String, String>{
+                          'subject': 'Hello I need your help',
+                        }),
+                      );
+
+                      try {
+                        launchUrl(emailLaunchUri);
+                      } catch (e) {
+                        print(e);
+                      }
+                    },
                     color: Colors.white,
                     Width: 100,
                     widget: Image.asset(
