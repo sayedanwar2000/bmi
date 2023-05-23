@@ -1,7 +1,9 @@
 // ignore_for_file: must_be_immutable, no_logic_in_create_state
 
 import 'package:bmi/controller/colors.dart';
+import 'package:bmi/controller/components/component.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SecondScreen extends StatefulWidget {
   double bmi;
@@ -14,40 +16,57 @@ class SecondScreen extends StatefulWidget {
 
 class _SecondScreenState extends State<SecondScreen> {
   double bmi;
+  final Uri emailLaunchUri = Uri.parse('');
+  final Uri whatsAppLaunchUri = Uri.parse('whatsapp://send?phone=+201151763742' +
+  '&text=${Uri.encodeComponent('Hello I need your help')}');
 
   _SecondScreenState(this.bmi);
 
+  dynamic images = {
+    0: [
+      'images/الافطار  نحيف.png',
+      'images/الغذاء نحيف.png',
+      'images/نحيف العشاء.png'
+    ],
+    1: [
+      'images/مثالى الفطار.png',
+      'images/مثالى الغذاء.png',
+      'images/مثالى العشاء.png'
+    ],
+    2: [
+      'images/سمين الإفطار.png',
+      'images/سمين الغذاء.png',
+      'images/سمين العشاء.png'
+    ],
+  };
+
   String getResult(double bmi) {
-    if (bmi > 18.5 && bmi <= 24.9) {
-      return 'Your weight is normal and healthy.';
-    } else if (bmi > 25 && bmi <= 29.9) {
-      return 'You are a bit overweight and '
-          'you need to review your diet, '
-          'lifestyle and exercise on a regular basis.';
-    } else if (bmi > 30 && bmi <= 34.90) {
-      return 'You are moderately obese and '
-          'need to make drastic changes in your diet';
+    if (bmi <= 18.5) {
+      return 'You are skinny and need to organize meals';
+    } else if (bmi < 25) {
+      return 'Your weight is perfect.';
+    } else {
+      return 'You are fat and need to organize meals.';
     }
-    return '';
   }
 
-  String getPath(double bmi) {
-    if (bmi > 18.5 && bmi <= 24.9) {
-      return 'images/وزنك ناقص.png';
-    } else if (bmi > 25 && bmi <= 29.9) {
-      return 'images/بدانة متوسطة.png';
-    } else if (bmi > 30 && bmi <= 34.90) {
-      return 'images/زائد بعض الشيء.png';
+  int getPath(double bmi) {
+    if (bmi <= 18.5) {
+      return 0;
+    } else if (bmi < 25) {
+      return 1;
+    } else {
+      return 2;
     }
-    return '';
   }
 
   late String result = getResult(bmi);
-  late String path = getPath(bmi);
+  late int path = getPath(bmi);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[350],
       appBar: AppBar(
         backgroundColor: defaultColorsB,
         centerTitle: true,
@@ -65,7 +84,7 @@ class _SecondScreenState extends State<SecondScreen> {
           child: Column(
             children: [
               Text(
-                'Result : ${bmi.round()}',
+                'Result',
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 40,
@@ -74,27 +93,77 @@ class _SecondScreenState extends State<SecondScreen> {
               const SizedBox(
                 height: 20,
               ),
-              Wrap(
-                spacing: 5.0, // gap between adjacent chips
-                children: [
-                  Text(
-                    result,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 20,
-                    ),
-                  ),
-                ],
+              Text(
+                result,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20,
+                ),
               ),
               const SizedBox(
                 height: 20,
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.75,
-                child: Image.asset(
-                  path,
-                  fit: BoxFit.fill,
+              Image.asset(
+                images[path][0],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Image.asset(
+                images[path][1],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Image.asset(
+                images[path][2],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                'If you would like more information,'
+                ' please contact us at',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 23,
                 ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  defaultButton(
+                    function: () async {
+                      try {
+                        launchUrl(whatsAppLaunchUri);
+                      } catch (e) {
+                        print(e);
+                      }
+                    },
+                    color: Colors.white,
+                    Width: 100,
+                    widget: Image.asset(
+                      'images/whatsapp-logo.png',
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10.0,
+                  ),
+                  defaultButton(
+                    function: () {},
+                    color: Colors.white,
+                    Width: 100,
+                    widget: Image.asset(
+                      'images/gmail-logo-on-transparent-white-background-free-vector.jpg',
+                      height: 70,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
