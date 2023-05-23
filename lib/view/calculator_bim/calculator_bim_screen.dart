@@ -16,8 +16,8 @@ class _CalculatorBMIScreenState extends State<CalculatorBMIScreen> {
   bool male = false;
   bool female = false;
   double height = 120;
-  int weight = 40;
-  int age = 15;
+  int weight = 70;
+  int age = 20;
   double bmi = 0;
   @override
   Widget build(BuildContext context) {
