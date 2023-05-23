@@ -181,8 +181,8 @@ class _CalculatorBMIScreenState extends State<CalculatorBMIScreen> {
                       ),
                       Slider(
                         value: height,
-                        max: 180.0,
-                        min: 80.0,
+                        max: 250.0,
+                        min: 50.0,
                         onChanged: (value) {
                           setState(() {
                             height = value;

@@ -170,9 +170,9 @@ class _SecondScreenState extends State<SecondScreen> {
                         path: 'ahmedmohamedhassanramzysaad@gmail.com',
                         query: encodeQueryParameters(<String, String>{
                           'subject': 'Hello I need your help',
+                          'body': 'Hello, Can you help me ',
                         }),
                       );
-
                       try {
                         launchUrl(emailLaunchUri);
                       } catch (e) {
